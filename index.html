@@ -112,7 +112,7 @@
   </div>
 </header>
 
-<!-- 👇 Trailer section added here -->
+<!-- 👇 Trailer section -->
 <section>
   <h2>Official Trailer</h2>
   <p>Experience the cinematic introduction of NotX AI.</p>
@@ -123,6 +123,66 @@
       Your browser does not support the video tag.
     </video>
   </div>
+</section>
+
+<!-- 👇 Chat with NotX section -->
+<section>
+  <h2>Chat with NotX</h2>
+  <p>Try interacting with our AI agent (frontend demo)</p>
+
+  <div style="max-width:600px;margin:30px auto;">
+    <div id="chat-box" style="background:rgba(255,255,255,0.05);border-radius:16px;padding:20px;height:400px;overflow-y:auto;border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column-reverse;">
+      <!-- Messages will appear here -->
+    </div>
+
+    <input id="chat-input" type="text" placeholder="Type your message..." style="width:100%;padding:12px;margin-top:10px;border-radius:12px;border:none;outline:none;font-size:1rem;">
+    <button id="chat-send" style="margin-top:10px;padding:12px 25px;border-radius:12px;border:none;background:#00f0ff;color:#000;font-weight:bold;cursor:pointer;">Send</button>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+
+    const botReplies = [
+      "Hello! I'm NotX AI 🤖. How can I help you today?",
+      "I can assist with information, automation, and more.",
+      "Interesting! Tell me more.",
+      "I'm here to answer your questions.",
+      "Let's explore the future together!",
+      "Processing your request...",
+      "I don't have that info yet, but I'm learning!"
+    ];
+
+    function addMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.style.padding = "8px 12px";
+      msg.style.margin = "5px 0";
+      msg.style.borderRadius = "12px";
+      msg.style.maxWidth = "80%";
+      msg.style.wordWrap = "break-word";
+      msg.style.alignSelf = sender === "user" ? "flex-end" : "flex-start";
+      msg.style.background = sender === "user" ? "#00f0ff" : "rgba(255,255,255,0.15)";
+      msg.style.color = sender === "user" ? "#000" : "#fff";
+      msg.innerText = text;
+      chatBox.prepend(msg);
+    }
+
+    chatSend.addEventListener('click', () => {
+      const text = chatInput.value.trim();
+      if(text === "") return;
+      addMessage("user", text);
+      chatInput.value = "";
+      setTimeout(() => {
+        const reply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        addMessage("bot", reply);
+      }, 800);
+    });
+
+    chatInput.addEventListener("keypress", function(e){
+      if(e.key === "Enter") chatSend.click();
+    });
+  </script>
 </section>
 
 <section>
