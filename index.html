@@ -125,7 +125,7 @@
   </div>
 </section>
 
-<!-- 👇 Chat with NotX section -->
+<!-- 👇 Chat with NotX section with typing animation -->
 <section>
   <h2>Chat with NotX</h2>
   <p>Try interacting with our AI agent (frontend demo)</p>
@@ -166,6 +166,21 @@
       msg.style.color = sender === "user" ? "#000" : "#fff";
       msg.innerText = text;
       chatBox.prepend(msg);
+      chatBox.scrollTop = chatBox.scrollHeight; // smooth auto-scroll
+    }
+
+    function addTypingDots() {
+      const dots = document.createElement('div');
+      dots.style.padding = "8px 12px";
+      dots.style.margin = "5px 0";
+      dots.style.borderRadius = "12px";
+      dots.style.maxWidth = "50%";
+      dots.style.background = "rgba(255,255,255,0.15)";
+      dots.style.color = "#fff";
+      dots.innerText = "...";
+      chatBox.prepend(dots);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return dots;
     }
 
     chatSend.addEventListener('click', () => {
@@ -173,10 +188,14 @@
       if(text === "") return;
       addMessage("user", text);
       chatInput.value = "";
+
+      const typing = addTypingDots();
+
       setTimeout(() => {
+        typing.remove();
         const reply = botReplies[Math.floor(Math.random() * botReplies.length)];
         addMessage("bot", reply);
-      }, 800);
+      }, 1000 + Math.random() * 1000); // random typing delay 1–2 sec
     });
 
     chatInput.addEventListener("keypress", function(e){
